@@ -7,11 +7,12 @@
 
 /* FILL YOUR OWN IMPLEMENTATION HERE! */
 entry *findName(char lastname[], entry *pHead)
-{
+{	
+	int hashindex = hash(lastname);
     /* TODO: implement */
     while (pHead != NULL) {
         if (strcasecmp(lastname, pHead->lastName) == 0){
-			printf("find it %s \n",pHead->lastName);
+			//printf("find it %s \n",pHead->lastName);
             return pHead;
 		}
         pHead = pHead->pNext;
