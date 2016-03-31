@@ -18,6 +18,6 @@ typedef struct HASHTABLE_ENTRY {
 
 entry *findName(char lastname[], entry *pHead);
 entry *append(char lastName[], entry *e);
-unsigned int hash(char lastname[]);
+unsigned int hash(char *key);
 
 #endif

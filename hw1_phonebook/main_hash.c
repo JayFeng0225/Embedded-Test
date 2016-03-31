@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 {
     FILE *fp;
     int i = 0;
+	int j = 0;
     char line[MAX_LAST_NAME_SIZE];
     struct timespec start, end;
     double cpu_time1, cpu_time2;
@@ -46,9 +47,9 @@ int main(int argc, char *argv[])
 
 	entry** table;
     table = malloc(tablesize*sizeof(entry));
-	for(i = 0 ; i < tablesize ; i++){
-    	table[i] = (entry *) malloc(tablesize*sizeof(entry));
-		table[i]->pNext = NULL;
+	for(j = 0 ; j < tablesize ; j++){
+    	table[j] = (entry *) malloc(tablesize*sizeof(entry));
+		table[j]->pNext = NULL;
 	}
 #if defined(__GNUC__)
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
@@ -59,7 +60,7 @@ int main(int argc, char *argv[])
             i++;
         line[i - 1] = '\0';
         i = 0;
-		//TODO hash implement
+		//TODO hash implementn
 		hashindex = hash(line);
 		e = table[hashindex];
 		while(e->pNext != NULL)
@@ -78,7 +79,11 @@ int main(int argc, char *argv[])
 
     /* the givn last name to find */
     char input[MAX_LAST_NAME_SIZE] = "zyxel";
-    e = pHead;
+
+	/*TODO using hash function to find lastname*/
+	hashindex = hash(input);
+	e = table[hashindex];
+    //e = pHead;
 
     assert(findName(input, e) &&
            "Did you implement findName() in " IMPL "?");
@@ -94,11 +99,7 @@ int main(int argc, char *argv[])
     cpu_time2 = diff_in_second(start, end);
 
     FILE *output;
-#if defined(OPT)
-    output = fopen("opt.txt", "a");
-#else
-    output = fopen("orig.txt", "a");
-#endif
+    output = fopen("hash.txt", "a");
     fprintf(output, "append() findName() %lf %lf\n", cpu_time1, cpu_time2);
     fclose(output);
 
