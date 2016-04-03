@@ -4,7 +4,7 @@ CFLAGS_orig = -O0
 CFLAGS_opt  = -O0
 CFLAGS_hash  = -O0
 
-EXEC = phonebook_orig phonebook_opt
+EXEC = phonebook_orig phonebook_opt phonebook_hash
 all: $(EXEC)
 
 SRCS_common = main.c
@@ -55,4 +55,4 @@ calculate: calculate.c
 .PHONY: clean
 clean:
 	$(RM) $(EXEC) *.o perf.* \
-	      	calculate orig.txt opt.txt output.txt runtime.png
+	      	calculate orig.txt opt.txt hash.txt output.txt runtime.png

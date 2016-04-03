@@ -63,11 +63,11 @@ int main(void)
         fscanf(fp, "%s %s %lf %lf\n", append, find,&hash_a, &hash_f);
         hash_sum_a += hash_a;
         hash_sum_f += hash_f;
-		printf("%lf:%lf\n",hash_f,hash_sum_f);
+		//printf("%lf:%lf\n",hash_f,hash_sum_f);
     }
 	
-    printf("append() %lf %lf %lf\n",orig_sum_a, opt_sum_a, hash_sum_a);
-    printf("findName() %lf %lf %lf\n", orig_sum_f, opt_sum_f, hash_sum_f);
+    //printf("append() %lf %lf %lf\n",orig_sum_a, opt_sum_a, hash_sum_a);
+    //printf("findName() %lf %lf %lf\n", orig_sum_f, opt_sum_f, hash_sum_f);
     fprintf(output, "append() %lf %lf %lf\n",orig_sum_a / 100.0, opt_sum_a / 100.0, hash_sum_a / 100.0);
     fprintf(output, "findName() %lf %lf %lf", orig_sum_f / 100.0, opt_sum_f / 100.0, hash_sum_f / 100.0);
     fclose(output);

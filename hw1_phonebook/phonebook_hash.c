@@ -6,15 +6,21 @@
 #include "phonebook_hash.h"
 
 /* FILL YOUR OWN IMPLEMENTATION HERE! */
-entry *findName(char lastname[], entry *pHead)
+entry *findName(char lastname[], entry **e)
 {	
-	int hashindex = hash(lastname);
+	int hashindex;
+	hashindex = hash(lastname);
+	entry *pHead;
+	pHead = e[hashindex];
+	//int l = 1;
     /* TODO: implement */
     while (pHead != NULL) {
         if (strcasecmp(lastname, pHead->lastName) == 0){
-			//printf("find it %s \n",pHead->lastName);
+			//printf("find %d : %s \n",l,pHead->lastName);
             return pHead;
 		}
+		//printf("here %d : %s \n",l,pHead->lastName);
+		//l++;
         pHead = pHead->pNext;
 	}
     return NULL;
@@ -36,6 +42,7 @@ unsigned int hash(char *key){
 		hashVal = (hashVal << 5) + *key++;
 	//printf("hash index:%d\n",hashVal%42737);
 	return hashVal % 42737;
+	//return hashVal % 9973;
 }
 
 

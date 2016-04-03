@@ -31,6 +31,8 @@ int main(int argc, char *argv[])
     double cpu_time1, cpu_time2;
 	unsigned int hashindex = 0;
 	int tablesize = 42737;
+	int bm[tablesize];
+	//int tablesize = 9973;
     /* check file opening */
     fp = fopen(DICT_FILE, "r");
     if (fp == NULL) {
@@ -39,18 +41,22 @@ int main(int argc, char *argv[])
     }
 
     /* build the entry */
-    entry *pHead, *e;
+    entry *pHead;
+	entry *e;
     pHead = (entry *) malloc(sizeof(entry));
     printf("size of entry : %lu bytes\n", sizeof(entry));
     //e = pHead;
     //e->pNext = NULL;
-
+	entry *pt[tablesize];
 	entry** table;
     table = malloc(tablesize*sizeof(entry));
 	for(j = 0 ; j < tablesize ; j++){
-    	table[j] = (entry *) malloc(tablesize*sizeof(entry));
-		table[j]->pNext = NULL;
+		bm[j] = 0;
+    	table[j] = (entry *) malloc(sizeof(entry));
+		pt[j] = table[j];
+		pt[j]->pNext = NULL;
 	}
+
 #if defined(__GNUC__)
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
 #endif
@@ -62,12 +68,12 @@ int main(int argc, char *argv[])
         i = 0;
 		//TODO hash implementn
 		hashindex = hash(line);
-		e = table[hashindex];
-		while(e->pNext != NULL)
-			e = e -> pNext;
-        
-		e = append(line, e);
-		//
+		if(bm[hashindex]==0){
+			pt[hashindex] = table[hashindex];
+			bm[hashindex] = 1;
+		}
+		pt[hashindex] = append(line,pt[hashindex]);
+		//e = append(line, e);
     }
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time1 = diff_in_second(start, end);
@@ -79,25 +85,31 @@ int main(int argc, char *argv[])
 
     /* the givn last name to find */
     char input[MAX_LAST_NAME_SIZE] = "zyxel";
+    //char input[MAX_LAST_NAME_SIZE] = "aminoacetone";
+    //char input[MAX_LAST_NAME_SIZE] = "tangleberry";
 
 	/*TODO using hash function to find lastname*/
-	hashindex = hash(input);
-	e = table[hashindex];
+	//hashindex = hash(input);
+	//e = table[hashindex];
     //e = pHead;
 
-    assert(findName(input, e) &&
+    //assert(findName(input, e) &&
+    //      "Did you implement findName() in " IMPL "?");
+    //assert(0 == strcmp(findName(input, e)->lastName, "zyxel"));
+
+    assert(findName(input, table) &&
            "Did you implement findName() in " IMPL "?");
-    assert(0 == strcmp(findName(input, e)->lastName, "zyxel"));
+    //assert(0 == strcmp(findName(input, table)->lastName, "zyxel"));
 
 #if defined(__GNUC__)
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
 #endif
     /* compute the execution time */
     clock_gettime(CLOCK_REALTIME, &start);
-    findName(input, e);
+    //findName(input, e);
+    findName(input, table);
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time2 = diff_in_second(start, end);
-
     FILE *output;
     output = fopen("hash.txt", "a");
     fprintf(output, "append() findName() %lf %lf\n", cpu_time1, cpu_time2);

@@ -16,7 +16,7 @@ typedef struct HASHTABLE_ENTRY {
 } hashtable;
 */
 
-entry *findName(char lastname[], entry *pHead);
+entry *findName(char lastname[], entry **pHead);
 entry *append(char lastName[], entry *e);
 unsigned int hash(char *key);
 
